@@ -14,5 +14,5 @@ Subxt-myclient-falcon --------------> Subxt -------------> polkadot-sdk-solochai
 
 Polkadot-sdk is a framework, and a build is not required. If any changes are made, the build should be run to check the validation of the changes. I have made changes in sp-core and sp-runtime, and hence can be built using:
 
-cargo check -p sp-core
-cargo check -p sp-runtime
+- cargo check -p sp-core
+- cargo check -p sp-runtime
