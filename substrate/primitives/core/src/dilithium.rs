@@ -77,8 +77,7 @@ impl TraitPair for Pair {
         // so feed it a disposable copy.
         let mut entropy = s;
 
-        //let inner = ml_dsa_87::Keypair::generate((&mut entropy).into());
-		let inner = ml_dsa_87::Keypair::generate(&entropy[..]);
+        let inner = ml_dsa_87::Keypair::generate((&mut entropy).into());
 
         Ok(Pair {
             inner,
@@ -118,13 +117,11 @@ impl TraitPair for Pair {
 
     #[cfg(feature = "full_crypto")]
     fn sign(&self, message: &[u8]) -> Signature {
-		let sig = self.inner.sign(message, None, None);
+        let sig = self
+            .inner
+            .sign(message, None, None)
+            .expect("ml_dsa_87 signing failed");
         Signature::from_raw(sig)
-        //let sig = self
-         //   .inner
-         //   .sign(message, None, None)
-         //   .expect("ml_dsa_87 signing failed");
-       // Signature::from_raw(sig)
 
         /* ml_dsa_44
         let sig = self
