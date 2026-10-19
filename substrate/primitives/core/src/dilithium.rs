@@ -7,6 +7,7 @@ use codec::Encode;
 
 // Using qp_rusty_crystals_dilithium library
 use qp_rusty_crystals_dilithium::ml_dsa_87;
+use qp_rusty_crystals_dilithium::{ml_dsa_87, SensitiveBytes32};
 
 /* Byte lengths based on ml-dsa-44
 pub const PUBLIC_KEY_LEN: usize = ml_dsa_44::PUBLICKEYBYTES;
@@ -78,7 +79,7 @@ impl TraitPair for Pair {
         let mut entropy = s;
 
         //let inner = ml_dsa_87::Keypair::generate((&mut entropy).into());
-		let inner = ml_dsa_87::Keypair::generate(&entropy[..]);
+		let inner = ml_dsa_87::Keypair::generate(SensitiveBytes32::from(&mut entropy));
 
         Ok(Pair {
             inner,
@@ -118,13 +119,12 @@ impl TraitPair for Pair {
 
     #[cfg(feature = "full_crypto")]
     fn sign(&self, message: &[u8]) -> Signature {
-        //let sig = self
-        //    .inner
-        //    .sign(message, None, None)
-        //    .expect("ml_dsa_87 signing failed");
-        //Signature::from_raw(sig)
-		let sig = self.inner.sign(message, None, None);
-		Signature::from_raw(sig)
+        let sig = self
+            .inner
+            .sign(message, None, None)
+            .expect("ml_dsa_87 signing failed");
+        Signature::from_raw(sig)
+
 
         /* ml_dsa_44
         let sig = self
